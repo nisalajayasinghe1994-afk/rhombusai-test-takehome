@@ -1,0 +1,57 @@
+name: rhombusai-regression
+
+on:
+  pull_request:
+  schedule:
+    - cron: "0 18 * * *"  # nightly (Sydney morning)
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      RHOMBUS_BASE_URL: ${{ secrets.RHOMBUS_BASE_URL }}
+      RHOMBUS_EMAIL: ${{ secrets.RHOMBUS_EMAIL }}
+      RHOMBUS_PASSWORD: ${{ secrets.RHOMBUS_PASSWORD }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npm run pw:install
+
+      # PR gate: fast, high-signal
+      - name: API tests (PR gate)
+        if: github.event_name == 'pull_request'
+        run: npm run test:api
+
+      - name: UI smoke (PR gate)
+        if: github.event_name == 'pull_request'
+        run: npm run test:ui
+
+      - name: Data validation (PR gate)
+        if: github.event_name == 'pull_request'
+        run: |
+          python -m pip install -r data-validation/requirements.txt
+          python data-validation/validate_output.py
+
+      # Nightly: can be expanded (tagged suites)
+      - name: Full suite (nightly)
+        if: github.event_name == 'schedule'
+        run: npm run test:all
+
+      - name: Upload artifacts on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-artifacts
+          path: |
+            playwright-report/
+            test-results/

@@ -1,0 +1,7 @@
+id,name,email,signup_date,amount,notes
+1, "  Alice  ",ALICE@EXAMPLE.COM,2025-01-02,100, " first  "
+2,"Bob",bob@example.com,02/01/2025,100, ""
+2,"Bob",bob@example.com,02/01/2025,100, "duplicate row"
+3,"Charlie  ",charlie@example.com,2025/01/04, , "missing amount"
+4,"Dana",dana@example.com,invalid_date,250,"bad date"
+5,"Eve",eve@example.com,2025-01-06,300,"ok"

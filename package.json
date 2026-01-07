@@ -1,0 +1,18 @@
+{
+  "name": "rhombusai-test-takehome",
+  "private": true,
+  "scripts": {
+    "pw:install": "playwright install --with-deps",
+    "test:ui": "playwright test ui-tests --project=chromium",
+    "test:api": "playwright test api-tests --project=chromium",
+    "test:all": "playwright test",
+    "test:headed": "playwright test --headed",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.57.0",
+    "@types/node": "^25.0.3",
+    "dotenv": "^16.4.5",
+    "typescript": "^5.6.3"
+  }
+}
