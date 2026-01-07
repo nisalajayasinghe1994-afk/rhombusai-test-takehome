@@ -166,6 +166,9 @@ This strategy assumes:
 ## 7. Demo and execution notes (take-home submission)
 
 ### Demo video scope
+
+Demo Video.mov included in Git Repo
+
 The demo video walks through the UI automation structure (test flow, selectors/waits, and artifact generation). The API/network test scripts are included in the repository and follow the same black-box contract approach described above, however I did not execute them during the recording due to intermittent instability observed in the Rhombus AI environment while running automated flows.
 
 ### Data validation status
